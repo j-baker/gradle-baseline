@@ -24,12 +24,13 @@ import java.util.concurrent.ThreadPoolExecutor;
         severity = SeverityLevel.ERROR,
         summary = "Disallow most direct ThreadPoolExecutor usages.")
 public final class DangerousExecutorUsage extends BugChecker implements BugChecker.NewClassTreeMatcher {
-    private static final String ERROR_MESSAGE = "Should not normally use ThreadPoolExecutor directly."
+    private static final String ERROR_MESSAGE = "Should not normally use ThreadPoolExecutor directly. "
             + "ThreadPoolExecutor is a nuanced class. In our experience, when executors are configured "
             + "in non-default ways (i.e. the ones in Executors), we usually see bad behaviour. This check "
-            + "is intended to be advisory - it's fine to @SuppressWarnings(\"DangerousExecutorUsage\") but "
-            + "make sure that your usage is not broken. The most common bug is to set corePoolSize != maxPoolSize "
-            + "and to have an unbounded or large work queue; the executor will never grow beyond the corePoolSize.";
+            + "is intended to be advisory - it's fine to @SuppressWarnings(\"DangerousExecutorUsage\") in certain "
+            + "cases, but is usually not recommended. The most common bug is to set corePoolSize != maxPoolSize "
+            + "and to have an unbounded or large work queue; the executor will never grow beyond the corePoolSize. "
+            + "If you have questions here, feel free to ask around internally.";
 
     private static final String THREAD_POOL_EXECUTOR = ThreadPoolExecutor.class.getCanonicalName();
     private static final Matcher<ExpressionTree> matcher = new IsSubtypeOf<>(THREAD_POOL_EXECUTOR);

@@ -23,8 +23,8 @@ public final class DangerousExecutorUsageTests {
                 "Bean.java",
                 "import java.util.concurrent.ThreadPoolExecutor;",
                 "import java.util.concurrent.ExecutorService;",
-                "// BUG: Diagnostic contains: Should not normally use ThreadPoolExecutor directly.",
                 "class Bean {",
+                "// BUG: Diagnostic contains: Should not normally use ThreadPoolExecutor directly.",
                 "ExecutorService executor = new ThreadPoolExecutor(1, 1, 1, null, null);",
                 "}").doTest();
     }
